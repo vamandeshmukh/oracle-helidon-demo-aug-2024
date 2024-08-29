@@ -45,7 +45,7 @@ public class Pokemon {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "ID", nullable = false, updatable = false)
 	public int getId() {
 		return id;
