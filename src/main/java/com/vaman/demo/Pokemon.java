@@ -34,7 +34,7 @@ import jakarta.persistence.Transient;
 public class Pokemon {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
