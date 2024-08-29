@@ -9,11 +9,9 @@
 		<class>com.vaman.demo.Pokemon</class>
 		<class>com.vaman.demo.PokemonType</class>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.column_ordering_strategy"
 				value="legacy" />
-			<property name="jakarta.persistence.sql-load-script-source"
-				value="META-INF/init_script.sql" />
 			<!-- <property name="jakarta.persistence.sql-load-script-source" value="META-INF/init_script.sql" 
 				/> -->
 		</properties>
