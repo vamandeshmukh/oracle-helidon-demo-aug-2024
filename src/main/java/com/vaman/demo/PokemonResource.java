@@ -18,23 +18,30 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Path("pokemon")
 public class PokemonResource {
 
 	@PersistenceContext(unitName = "pu1")
 	private EntityManager entityManager;
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Pokemon> getPokemons() {
+		logger.info("getPokemons() method invoked.");
 		return entityManager.createNamedQuery("getPokemons", Pokemon.class).getResultList();
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Pokemon getPokemonById(@PathParam("id") String id) {
-		Pokemon pokemon = entityManager.find(Pokemon.class, Integer.valueOf(id));
+	public Pokemon getPokemonById(@PathParam("id") Integer id) {
+		logger.info(id.toString());
+		Pokemon pokemon = entityManager.find(Pokemon.class, id);
 		if (pokemon == null) {
 			throw new NotFoundException("Unable to find pokemon with ID " + id);
 		}
@@ -45,6 +52,7 @@ public class PokemonResource {
 	@Path("name/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Pokemon getPokemonByName(@PathParam("name") String name) {
+		logger.info(name);
 		TypedQuery<Pokemon> query = entityManager.createNamedQuery("getPokemonByName", Pokemon.class);
 		List<Pokemon> list = query.setParameter("name", name).getResultList();
 		if (list.isEmpty()) {
@@ -57,6 +65,7 @@ public class PokemonResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Transactional(Transactional.TxType.REQUIRED)
 	public Pokemon createPokemon(Pokemon pokemon) {
+		logger.info(pokemon.toString());
 		try {
 			PokemonType pokemonType = entityManager.createNamedQuery("getPokemonTypeById", PokemonType.class)
 					.setParameter("id", pokemon.getType()).getSingleResult();
@@ -73,6 +82,7 @@ public class PokemonResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional(Transactional.TxType.REQUIRED)
 	public Pokemon updatePokemon(Pokemon pokemon) {
+		logger.info(pokemon.toString());
 		return entityManager.merge(pokemon);
 	}
 
@@ -80,7 +90,8 @@ public class PokemonResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional(Transactional.TxType.REQUIRED)
-	public Pokemon deletePokemon(@PathParam("id") String id) {
+	public Pokemon deletePokemon(@PathParam("id") Integer id) {
+		logger.info(id.toString());
 		Pokemon pokemon = getPokemonById(id);
 		entityManager.remove(pokemon);
 		return pokemon;

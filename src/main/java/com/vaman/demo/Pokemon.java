@@ -33,8 +33,6 @@ import jakarta.persistence.Transient;
 
 public class Pokemon {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
@@ -47,6 +45,7 @@ public class Pokemon {
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, updatable = false)
 	public int getId() {
 		return id;
@@ -84,4 +83,10 @@ public class Pokemon {
 	public void setType(int type) {
 		this.type = type;
 	}
+
+	@Override
+	public String toString() {
+		return "Pokemon [id=" + id + ", name=" + name + ", pokemonType=" + pokemonType + ", type=" + type + "]";
+	}
+
 }
