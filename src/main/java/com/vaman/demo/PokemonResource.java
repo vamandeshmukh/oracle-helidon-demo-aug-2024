@@ -18,20 +18,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
-/**
- * This class implements REST endpoints to interact with Pokemons. The following
- * operations are supported:
- *
- * <ul>
- * <li>GET /pokemon: Retrieve list of all pokemons</li>
- * <li>GET /pokemon/{id}: Retrieve single pokemon by ID</li>
- * <li>GET /pokemon/name/{name}: Retrieve single pokemon by name</li>
- * <li>DELETE /pokemon/{id}: Delete a pokemon by ID</li>
- * <li>POST /pokemon: Create a new pokemon</li>
- * </ul>
- *
- * Pokemon, and Pokemon character names are trademarks of Nintendo.
- */
 @Path("pokemon")
 public class PokemonResource {
 
@@ -70,12 +56,13 @@ public class PokemonResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Transactional(Transactional.TxType.REQUIRED)
-	public void createPokemon(Pokemon pokemon) {
+	public Pokemon createPokemon(Pokemon pokemon) {
 		try {
 			PokemonType pokemonType = entityManager.createNamedQuery("getPokemonTypeById", PokemonType.class)
 					.setParameter("id", pokemon.getType()).getSingleResult();
 			pokemon.setPokemonType(pokemonType);
 			entityManager.persist(pokemon);
+			return pokemon;
 		} catch (Exception e) {
 			throw new BadRequestException("Unable to create pokemon with ID " + pokemon.getId());
 		}
@@ -93,9 +80,10 @@ public class PokemonResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Transactional(Transactional.TxType.REQUIRED)
-	public void deletePokemon(@PathParam("id") String id) {
+	public Pokemon deletePokemon(@PathParam("id") String id) {
 		Pokemon pokemon = getPokemonById(id);
 		entityManager.remove(pokemon);
+		return pokemon;
 	}
 
 }
