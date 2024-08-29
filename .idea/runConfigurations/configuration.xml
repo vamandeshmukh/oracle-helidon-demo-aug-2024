@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="vaman-helidon-mp-demo" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="io.helidon.Main" />
+    <module name="vaman-helidon-mp-demo" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
