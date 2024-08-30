@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Pokemon List</h1>
+<table id="pokemonTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type ID</th>
+            <th>Type Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Pokemon data will be injected here by JavaScript -->
+    </tbody>
+</table>
+
+<script>
+    // Fetch the Pokemon data from the Helidon REST API
+    fetch('http://localhost:8080/pokemon')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.querySelector('#pokemonTable tbody');
+            data.forEach(pokemon => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${pokemon.id}</td>
+                    <td>${pokemon.name}</td>
+                    <td>${pokemon.pokemonType.id}</td>
+                    <td>${pokemon.pokemonType.name}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching Pokemon data:', error));
+</script>
+
+</body>
+</html>
