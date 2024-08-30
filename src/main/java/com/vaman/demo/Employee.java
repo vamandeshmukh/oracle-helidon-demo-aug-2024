@@ -1,3 +1,4 @@
+
 package com.vaman.demo;
 
 import jakarta.persistence.Entity;

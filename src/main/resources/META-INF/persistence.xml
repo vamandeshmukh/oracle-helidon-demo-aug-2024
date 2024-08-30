@@ -10,10 +10,12 @@
 		<class>com.vaman.demo.PokemonType</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property
+				name="jakarta.persistence.schema-generation.database.action"
+				value="create" />
 			<property name="hibernate.column_ordering_strategy"
 				value="legacy" />
-			<!-- <property name="jakarta.persistence.sql-load-script-source" value="META-INF/init_script.sql" 
-				/> -->
 		</properties>
 	</persistence-unit>
 </persistence>
+
